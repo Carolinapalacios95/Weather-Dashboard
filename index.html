@@ -40,11 +40,17 @@
                 </div>
             </section>
         
-            <article class="current-city">
-                <h2 id="name-of-city"></h2>
-                <p id="temp"></p>
-        
-            </article>
+            <section class="col-12 col-md-9 col-xl-9 colTwo">
+                <article class="row current-city">
+                    <div class="card bg-light mb-3" style="max-width: 400px;">
+                        <h2 class="card-header" id="city-name-today"></h2>
+                        <h3 class="card-header" id="card-today-date"></h3>
+                        <img class="icons"/>
+                        <div class="card-body" id="current-card-body">
+                        </div>
+                    </div>
+                </article>
+            </section>
         
             <article class="forecast">
                 <h2>5-Day Forecast</h2>
@@ -72,6 +78,11 @@
     </main>
 
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+      integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
+      crossorigin="anonymous"
+    ></script>
     <script src="./assets/script.js"></script>
 </body>
 </html>

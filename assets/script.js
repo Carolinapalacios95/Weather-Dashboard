@@ -1,7 +1,9 @@
 var citySearchForm = $("#search-city")
 var submitBtn = $("#submit-button");
 
-
+//Generates current time and date
+var date = dayjs().format('dddd, MMMM D YYYY');
+var dateTime = dayjs().format('YYYY-MM-DD HH:MM:SS')
 
 var cities = [];
 var key = "d743387c66c5b9bb1ef18f3d12ba90c7";
@@ -57,27 +59,6 @@ function getCoordinates(newCity) {
             getForecast(lat, lon);
         });
 };
-function getForecast(lat, lon) {
-    console.log("get forecast with coordinates:" + lat + "/" + lon)
-    fetch('https://api.openweathermap.org/data/2.5/forecast?lat=' + lat +  '&lon=' + lon + '&appid=' + key)
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            console.log("fetched forecast data", data)
-        })
-}
-
-function getCurrentWeather(lat, lon) {
-    console.log("get current city weather with coordinates:" + lat + "/" + lon)
-    fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + lat +  '&lon=' + lon + '&appid=' + key)
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            console.log("fetched current weather data", data)
-        })
-}
 
 function addCity (city) {
     console.log("add city works")
@@ -112,13 +93,12 @@ function loadCities() {
         var lat = cities[i].latitude;
         var lon = cities[i].longitude
     
-    getCurrentWeather(lat, lon);
-    getForecast(lat, lon);
+    // getCurrentWeather(lat, lon);
+    // getForecast(lat, lon);
     updateCityList();
     }
 }
     
-
 function updateCityList() {
     console.log("update city list on page works");
 
@@ -128,7 +108,7 @@ function updateCityList() {
 
     for (var i=0; i < cities.length; i++) {
         citiesHtml += '<row class="row btnRow">';
-        citiesHtml += '<button class="btn btn-outline-secondary city" data-index="'+i+'">' +cities[i].city+ '</button>';
+        citiesHtml += '<button class="btn btn-outline-secondary city" data-index="'+i+'">' + cities[i].city + '</button>';
         citiesHtml += '</row>';
     }
 
@@ -136,3 +116,52 @@ function updateCityList() {
 
     
 }
+
+function getForecast(lat, lon) {
+    console.log("get forecast with coordinates:" + lat + "/" + lon)
+    fetch('https://api.openweathermap.org/data/2.5/forecast?lat=' + lat +  '&lon=' + lon + '&appid=' + key)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            console.log("fetched forecast data", data)
+        })
+        
+}
+
+function getCurrentWeather(lat, lon) {
+    console.log("get current city weather with coordinates:" + lat + "/" + lon)
+    fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + lat +  '&lon=' + lon + '&units=imperial&appid=' + key)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            console.log("fetched current weather data", data)
+            displayCurrentWeather(data);
+        })
+        
+}
+
+function displayCurrentWeather(data) {
+    console.log("display current weather works")
+
+    var currentCardBody = $("#current-card-body")
+    $(currentCardBody).empty();
+
+    $('#city-name-today').text(data.name)
+    $('#card-today-date').text(date);
+
+    $('.icons').attr('src', 'https://openweathermap.org/img/w/' + data.weather[0].icon + '.png')
+
+    var tempEl = $('<p>').text('Temperature: ' + data.main.temp + '°F');
+    currentCardBody.append(tempEl);
+
+    var windEl = $('<p>').text('Wind: ' + data.wind.speed + ' MPH');
+    currentCardBody.append(windEl);
+
+    var humEl = $('<p>').text('Humidity: ' + data.main.humidity + '%')
+    currentCardBody.append(humEl);
+
+}
+
+
