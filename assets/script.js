@@ -8,12 +8,12 @@ var key = "d743387c66c5b9bb1ef18f3d12ba90c7";
 
 $(function() {
     console.log("page and jquery initialized");
+
     formSubmit();
     loadCities();
 });
 
 function formSubmit() {
-    console.log("submit listener works")
 
     citySearchForm.submit(function(event) {
         console.log("submit button works")
@@ -27,8 +27,7 @@ function formSubmit() {
         }
         
         getCoordinates(newCity);
-
-        // how to clear input box text?? newCity.html = "";
+        loadCities()
     });
 }
 
@@ -86,19 +85,40 @@ function addCity (city) {
     console.log("cities array", cities)
     saveCity();
     updateCityList();
+    
+    $('#new-city').val("");
 }
 
 function saveCity() {
-    console.log("save cities array works")
+    console.log("save cities local storage works")
     localStorage.setItem('cities', JSON.stringify(cities));
 }
 
 function loadCities() {
-    cities = JSON.parse(localStorage.getItem('cities'));
-    if (!cities) cities = [];
-    console.log("loaded jokes work");
+    var citiesStored = JSON.parse(localStorage.getItem('cities'));
+
+	if (citiesStored !== null) {
+		cities = citiesStored
+	}
+    //cities = JSON.parse(localStorage.getItem('cities'));
+    if (!cities) {
+        cities = [];
+        return;
+    };
+    
+    console.log("loaded cities works");
+
+    for (var i=0; i < cities.length; i++) {
+        var lat = cities[i].latitude;
+        var lon = cities[i].longitude
+    
+    getCurrentWeather(lat, lon);
+    getForecast(lat, lon);
+    }
     updateCityList();
+    
 }
+    
 
 function updateCityList() {
     console.log("update city list on page works");
@@ -108,10 +128,12 @@ function updateCityList() {
     var citiesHtml = "";
 
     for (var i=0; i < cities.length; i++) {
-        citiesHtml += '<article data-index="'+i+'">';
-        citiesHtml += '<p class="city">' +cities[i].city+ '</p';
+        citiesHtml += '<article>';
+        citiesHtml += '<p class="city" data-index="'+i+'">' +cities[i].city+ '</p';
         citiesHtml += '</article';
     }
 
     $cityList.html(citiesHtml);
+
+    
 }
