@@ -27,7 +27,7 @@ function formSubmit() {
         }
         
         getCoordinates(newCity);
-        loadCities()
+        // loadCities()
     });
 }
 
@@ -114,9 +114,8 @@ function loadCities() {
     
     getCurrentWeather(lat, lon);
     getForecast(lat, lon);
-    }
     updateCityList();
-    
+    }
 }
     
 
@@ -128,9 +127,9 @@ function updateCityList() {
     var citiesHtml = "";
 
     for (var i=0; i < cities.length; i++) {
-        citiesHtml += '<article>';
-        citiesHtml += '<p class="city" data-index="'+i+'">' +cities[i].city+ '</p';
-        citiesHtml += '</article';
+        citiesHtml += '<row class="row btnRow">';
+        citiesHtml += '<button class="btn btn-outline-secondary city" data-index="'+i+'">' +cities[i].city+ '</button>';
+        citiesHtml += '</row>';
     }
 
     $cityList.html(citiesHtml);
