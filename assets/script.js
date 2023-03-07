@@ -125,6 +125,7 @@ function getForecast(lat, lon) {
         })
         .then(function(data) {
             console.log("fetched forecast data", data)
+            displayForecast(data);
         })
         
 }
@@ -164,4 +165,63 @@ function displayCurrentWeather(data) {
 
 }
 
+function displayForecast(data) {
+    console.log("display forecast works")
+
+     var fiveForecastEl = $('#fiveDayForecast');
+    
+    fiveForecastEl.empty();
+    
+    var fiveDayArray = data.list;
+		var forecast = [];
+		//Made a object that would allow for easier data read
+		$.each(fiveDayArray, function (index, value) {
+			testObj = {
+				date: value.dt_txt.split(' ')[0],
+				temp: value.main.temp,
+				icon: value.weather[0].icon,
+				humidity: value.main.humidity,
+                wind: value.wind.speed
+			}
+
+			if (value.dt_txt.split(' ')[1] === "12:00:00") {
+				forecast.push(testObj);
+			}
+		})
+		//Inject the cards to the screen 
+		for (let i = 0; i < 5; i++) {
+
+			var divElCard = $('<div>');
+			divElCard.attr('class', 'card text-white bg-primary mb-3 cardOne');
+			divElCard.attr('style', 'max-width: 210px;');
+			fiveForecastEl.append(divElCard);
+
+			var divElHeader = $('<div>');
+			divElHeader.attr('class', 'card-header')
+			var dayFormat = dayjs(`${forecast[i].date}`).format('MM-DD-YYYY');
+			divElHeader.text(dayFormat);
+			divElCard.append(divElHeader)
+
+			var divElBody = $('<div>');
+			divElBody.attr('class', 'card-body');
+			divElCard.append(divElBody);
+
+			var divElIcon = $('<img>');
+			divElIcon.attr('class', 'icons');
+			divElIcon.attr('src', `https://openweathermap.org/img/wn/${forecast[i].icon}@2x.png`);
+			divElBody.append(divElIcon);
+
+			//Temp
+			var pElTemp = $('<p>').text('Temperature: ' + forecast[i].temp + ' °F');
+			divElBody.append(pElTemp);
+
+			//Humidity
+			var pElHumid = $('<p>').text('Humidity: ' + forecast[i].humidity + ' %');
+			divElBody.append(pElHumid);
+
+            //Wind
+            var pwindEl = $('<p>').text('Wind: ' +  forecast[i].wind + ' MPH');
+            divElBody.append(pwindEl);
+        }
+}
 
