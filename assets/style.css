@@ -1,7 +1,7 @@
+/* Referenced fonts brought in by Google Fonts */
 * {
 	font-family: 'Domine', serif;
 	font-family: 'Playfair Display', serif;
-
 }
 
 h1 {
@@ -31,6 +31,11 @@ label {
 	height: 75px;
 	width: 75px;
 }
+
 #card-today-date {
 	font-size: 20px;
+}
+
+.line-break {
+	color: ghostwhite;
 }

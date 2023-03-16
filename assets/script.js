@@ -1,3 +1,4 @@
+// Referenced global variables
 var citySearchForm = $("#search-city")
 var submitBtn = $("#submit-button");
 
@@ -6,64 +7,91 @@ var submitBtn = $("#submit-button");
 var date = dayjs().format('dddd, MMMM D YYYY');
 var dateTime = dayjs().format('YYYY-MM-DD HH:MM:SS')
 
+// created an empty cities array to be filled later
 var cities = [];
+// set Api key equal to a new var to be referenced more easily throughout code
 var key = "d743387c66c5b9bb1ef18f3d12ba90c7";
 
+// wrapped all functions in a call to jQuery to make sure DOM elements load first
 $(function() {
-    console.log("page and jquery initialized");
+    // console.log("page and jquery initialized");
 
-    
+    // calls Load cities function 
     loadCities();
     
 });
 
+// Retrieves any previously searched cities and/or displays default city upon page load
+function loadCities(city) {
+    var citiesStored = JSON.parse(localStorage.getItem('cities'));
+
+    if (citiesStored === null) {
+        var city= "New York";
+
+            var cities = {
+                city: city
+            }
+            // console.log("initial city", city)
+
+            //it passes the var city to the getcoordinates function
+            getCoordinates(city);
+            formSubmit();
+
+    } else if (citiesStored !== null) {
+		var cities = citiesStored
+
+        for (var i=0; i < cities.length; i++) {
+    
+    if (!cities) {
+        cities = [];
+        return;
+    };
+    
+    // console.log("loaded cities works");
+
+    //it passes the cities array to the getcoordinates & updatecitylist functions
+    getCoordinates(cities[0]);
+    updateCityList(cities[i]);
+    formSubmit();
+    }
+    }
+}
+
+// holds an event listener that listens for the city search form submit
 function formSubmit() {
 
     citySearchForm.submit(function(event) {
-        console.log("submit button works")
+        // console.log("submit button works")
         event.preventDefault();
 
         var city= $("#new-city").val();
 
         if (!city) {
-            console.log('City search is blank!');
+            // console.log('City search is blank!');
             return;
         }
         
+        //When the user clicks search, it passes the var city to the getcoordinates function
         getCoordinates(city);
-        // loadCities()
     });
 }
 
-function cityClick() {
-
-    var cityButton = $('.city');
-
-    cityButton.on("click", function (event) {
-        event.preventDefault()
-        
-        console.log("city button click works",($(event.target).text()))
-        
-        city = $(event.target).text()
-        getCoordinates(city)
-});
-}
-
+// uses the passed var city in order to retrieve its coordinates in a fetch Api request
 function getCoordinates(city) {
-    console.log("get coordinates works")
-    console.log("city name", city)
+    // console.log("get coordinates works")
+    // console.log("city name", city)
     fetch('http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + key)
         .then(function(response) {
             return response.json();
         })
         .then(function(data){
-            console.log(data);
-            console.log("fetched coordinates", data[0].lat, data[0].lon)
+            // console.log(data);
+            // console.log("fetched coordinates", data[0].lat, data[0].lon)
 
             var lat= data[0].lat
             var lon= data[0].lon
 
-            console.log(city)
+            // console.log(city)
 
             addCity(city);
             getCurrentWeather(lat, lon);
@@ -71,8 +99,9 @@ function getCoordinates(city) {
         });
 };
 
+// adds new city to the cities array
 function addCity (city) {
-    console.log("add city works")
+    // console.log("add city works")
 
     var cityIndex = cities.indexOf(city);
     if (cityIndex !== -1) {
@@ -80,72 +109,30 @@ function addCity (city) {
     } 
 
     cities.unshift(city)
-    console.log("cities array", cities)
-    saveCity(city);
-    updateCityList(city);
+    // console.log("cities array", cities)
+
+    saveCity();
+    updateCityList();
     
     $('#new-city').val("");
 }
 
-function saveCity(city) {
+// saves new cities array to local storage
+function saveCity() {
     console.log("save cities local storage works")
 
     localStorage.setItem('cities', JSON.stringify(cities));
 }
-
-function loadCities(city) {
-    var citiesStored = JSON.parse(localStorage.getItem('cities'));
-
-    if (citiesStored === null) {
-        var city= "New York";
-        // var lat = 40.7127281;
-        // var lon= -74.0060152;
-
-            var cities = {
-                city: city
-            }
-            console.log("initial city", city)
-
-            getCoordinates(city);
-            formSubmit();
-            // addCity(city);
-            // getCurrentWeather(lat, lon);
-            // getForecast(lat, lon);
-
-        // updateCityList(cities);
-
-    } else if (citiesStored !== null) {
-		var cities = citiesStored
-
-        for (var i=0; i < cities.length; i++) {
-    // cities = JSON.parse(localStorage.getItem('cities'));
-    if (!cities) {
-        cities = [];
-        return;
-    };
     
-    console.log("loaded cities works");
-
-    
-    getCoordinates(cities[0]);
-    updateCityList(cities[i]);
-    formSubmit();
-    }
-    }
-}
-    
-function updateCityList(city) {
+// updates the displayed city list buttons
+function updateCityList() {
     console.log("update city list on page works");
     
     cities = JSON.parse(localStorage.getItem('cities'));
 
     var $cityList = $('#city-list');
-
-    // $cityList.text("");
     
     var citiesHtml = "";
-
-    
 
     for (var i=0; i < cities.length; i++) {
         citiesHtml += '<row class="row btnRow">';
@@ -159,6 +146,23 @@ function updateCityList(city) {
     
 }
 
+//holds an event listener that listens for user to click on a city button
+function cityClick() {
+
+    var cityButton = $('.city');
+
+    cityButton.on("click", function (event) {
+        event.preventDefault()
+        
+        // console.log("city button click works",($(event.target).text()))
+        
+        city = $(event.target).text()
+
+        // it passes the var city to the getcoordinates function
+        getCoordinates(city)
+});
+}
+// gets forecast data by making api fetch request using the passed in coordinates & api key
 function getForecast(lat, lon) {
     console.log("get forecast with coordinates:" + lat + "/" + lon)
     fetch('https://api.openweathermap.org/data/2.5/forecast?lat=' + lat +  '&lon=' + lon + '&units=imperial&appid=' + key)
@@ -172,6 +176,7 @@ function getForecast(lat, lon) {
         
 }
 
+// gets current weather data by making api fetch request using the passed in coordinates & api key
 function getCurrentWeather(lat, lon) {
     console.log("get current city weather with coordinates:" + lat + "/" + lon)
     fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + lat +  '&lon=' + lon + '&units=imperial&appid=' + key)
@@ -181,10 +186,10 @@ function getCurrentWeather(lat, lon) {
         .then(function(data) {
             console.log("fetched current weather data", data)
             displayCurrentWeather(data);
-        })
-        
+        }) 
 }
 
+//displays the current weather on page by referencing html, and appending text with data
 function displayCurrentWeather(data) {
     console.log("display current weather works")
 
@@ -207,6 +212,7 @@ function displayCurrentWeather(data) {
 
 }
 
+//displays the weather forecast on page by referencing html, and appending text with data
 function displayForecast(data) {
     console.log("display forecast works")
 
@@ -230,7 +236,7 @@ function displayForecast(data) {
 				forecast.push(testObj);
 			}
 		})
-		//Inject the cards to the screen 
+		//Creates & appends the cards to the screen 
 		for (let i = 0; i < 5; i++) {
 
 			var divElCard = $('<div>');

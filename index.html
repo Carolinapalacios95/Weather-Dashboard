@@ -23,39 +23,45 @@
     <link rel="stylesheet" href="./assets/style.css"/>
 
 </head>
+<!-- Added styling to webpage using bootstrap components -->
 <body class="bg-dark bg-gradient">
     <header>
         <h1>Weather Dashboard</h1>
     </header>
-
-    <main class = "container-fluid">
+    <!-- made the main container fluid for resizability -->
+    <main class="container-fluid">
         <div class="row">
-            <section class="col-12 col-md-3 col-xl-3 side-nav">
+            <!-- Created a column section for the search form and previosuly searched buttons -->
+            <section class="col-12 col-md-3 col-xl-3">
+                <!-- added form so user can search a city -->
                 <form id="search-city">
                     <label class="text-light" for="new-city">Search for a City:</label>
                     <input type="text" id="new-city" />
-                    <input class="btn btn-secondary " type="submit" id="submit-button" value="Search"/>
+                    <input class="btn btn-secondary " type="submit" id="submit-button" value="Search" />
                 </form>
-        
-                <div class="container" id="city-list">
-                   
-                </div>
+    
+                <!-- added line break to match mockup -->
+                <hr class="line-break">
+    
+                <!-- created div to be filled when specific javascript functions run -->
+                <div class="container" id="city-list"></div>
             </section>
-        
-            <section class="col-12 col-md-9 col-xl-9 colTwo">
+    
+            <!-- Created another column section for the current forecast -->
+            <section class="col-12 col-md-9 col-xl-9">
                 <article class="row current-city">
                     <div class="card bg-light my-3" style="max-width: 400px;">
                         <h2 class="card-header" id="city-name-today"></h2>
                         <h3 class="card-header" id="card-today-date"></h3>
-                        <img class="icons"/>
+                        <img class="icons" />
                         <div class="card-body" id="current-card-body">
                         </div>
                     </div>
                 </article>
-            
-        
+    
+                <!-- Created another row for the 5-Day forecast -->
                 <section class="row">
-                    <h2 class="text-light" >5-Day Forecast</h2>
+                    <h2 class="text-light">5-Day Forecast</h2>
                     <div class="row" id="fiveDayForecast"></div>
                 </section>
             </section>
