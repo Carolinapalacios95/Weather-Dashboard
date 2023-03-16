@@ -149,7 +149,7 @@ function updateCityList(city) {
 
     for (var i=0; i < cities.length; i++) {
         citiesHtml += '<row class="row btnRow">';
-        citiesHtml += '<button class="btn btn-outline-secondary city">' + cities[i] + '</button>';
+        citiesHtml += '<button class="btn btn-light btn-outline-secondary city">' + cities[i] + '</button>';
         citiesHtml += '</row>';
     }
 
@@ -161,7 +161,7 @@ function updateCityList(city) {
 
 function getForecast(lat, lon) {
     console.log("get forecast with coordinates:" + lat + "/" + lon)
-    fetch('https://api.openweathermap.org/data/2.5/forecast?lat=' + lat +  '&lon=' + lon + '&appid=' + key)
+    fetch('https://api.openweathermap.org/data/2.5/forecast?lat=' + lat +  '&lon=' + lon + '&units=imperial&appid=' + key)
         .then(function(response) {
             return response.json();
         })
@@ -234,8 +234,8 @@ function displayForecast(data) {
 		for (let i = 0; i < 5; i++) {
 
 			var divElCard = $('<div>');
-			divElCard.attr('class', 'card text-white bg-primary mb-3 cardOne');
-			divElCard.attr('style', 'max-width: 210px;');
+			divElCard.attr('class', 'card  bg-light mb-3 cardOne');
+			divElCard.attr('style', 'max-width: 215px;');
 			fiveForecastEl.append(divElCard);
 
 			var divElHeader = $('<div>');

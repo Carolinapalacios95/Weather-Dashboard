@@ -1,9 +1,21 @@
+* {
+	font-family: 'Domine', serif;
+	font-family: 'Playfair Display', serif;
+
+}
+
 h1 {
-	background-color: rgb(143, 100, 223);
+	color:rgb(244, 247, 247);
 	text-align: center;
     padding: 15px 15px;
-    /* add gradient */
 }
+
+header {
+	border-bottom-width: 10px;
+	border-bottom-color: ghostwhite;
+	border-bottom-style: solid;
+}
+
 label {
 	margin: 10px 10px;
 	font-weight: bold;

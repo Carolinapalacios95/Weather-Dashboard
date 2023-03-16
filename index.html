@@ -12,6 +12,8 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <!-- Added google fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Domine:wght@700&family=Playfair+Display:wght@500;600;700;800;900&display=swap" rel="stylesheet">
       <!-- linked jQuery UI -->
     <link
       rel="stylesheet"
@@ -21,7 +23,7 @@
     <link rel="stylesheet" href="./assets/style.css"/>
 
 </head>
-<body>
+<body class="bg-dark bg-gradient">
     <header>
         <h1>Weather Dashboard</h1>
     </header>
@@ -30,9 +32,9 @@
         <div class="row">
             <section class="col-12 col-md-3 col-xl-3 side-nav">
                 <form id="search-city">
-                    <label for="new-city">Search for a City:</label>
+                    <label class="text-light" for="new-city">Search for a City:</label>
                     <input type="text" id="new-city" />
-                    <input class="btn btn-primary" type="submit" id="submit-button" value="Search"/>
+                    <input class="btn btn-secondary " type="submit" id="submit-button" value="Search"/>
                 </form>
         
                 <div class="container" id="city-list">
@@ -42,7 +44,7 @@
         
             <section class="col-12 col-md-9 col-xl-9 colTwo">
                 <article class="row current-city">
-                    <div class="card bg-light mb-3" style="max-width: 400px;">
+                    <div class="card bg-light my-3" style="max-width: 400px;">
                         <h2 class="card-header" id="city-name-today"></h2>
                         <h3 class="card-header" id="card-today-date"></h3>
                         <img class="icons"/>
@@ -53,19 +55,18 @@
             
         
                 <section class="row">
-                    <h2>5-Day Forecast</h2>
+                    <h2 class="text-light" >5-Day Forecast</h2>
                     <div class="row" id="fiveDayForecast"></div>
                 </section>
             </section>
         </div>
     </main>
 
+    <!-- Linked jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
-      integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
-      crossorigin="anonymous"
-    ></script>
+    <!-- Linked Dayjs -->
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js" integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
+    <!-- Linked Js file -->
     <script src="./assets/script.js"></script>
 </body>
 </html>
