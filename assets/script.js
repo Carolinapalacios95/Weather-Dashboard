@@ -80,7 +80,7 @@ function formSubmit() {
 function getCoordinates(city) {
     // console.log("get coordinates works")
     // console.log("city name", city)
-    fetch('http://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + key)
+    fetch('https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&limit=1&appid=' + key)
         .then(function(response) {
             return response.json();
         })
