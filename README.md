@@ -1,7 +1,7 @@
 # Weather-Dashboard
 
 >## Description 
-This appliction was built with JavaScript and Boostrap to display the current weather forecast along with 5-day forecast data of a searched city. OpenWeather API is used to display the current weather data for a city along with a 5-day forecast. In addition, the searched or selected city is saved in local storage so that its information displays upon page reload.
+This application was built with JavaScript and Boostrap to display the current weather forecast along with 5-day forecast data of a searched city. OpenWeather API is used to display the current weather data for a city along with a 5-day forecast. In addition, the searched or selected city is saved in local storage so that its information displays upon page reload.
 
 >## Deployment/Installation
 
